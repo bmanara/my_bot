@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <gazebo>
         <plugin name="gz::sim::systems::DiffDrive" filename="gz-sim-diff-drive-system">
             <!-- Wheel Information -->
@@ -30,9 +30,4 @@
             <joint_name>right_wheel_joint</joint_name>
         </plugin>
     </gazebo>
-    
-    <xacro:include filename="inertial_macros.xacro" />
-    <xacro:include filename="colours.xacro" />
-    <xacro:include filename="robot_core.xacro" />
-    <!-- <xacro:include filename="gazebo_control.xacro" /> -->
 </robot>
