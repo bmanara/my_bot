@@ -24,6 +24,19 @@ def generate_launch_description():
         launch_arguments={'use_sim_time': 'true'}.items() 
     )
 
+    # slam = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([
+    #         os.path.join(
+    #             get_package_share_directory("slam_toolbox"),
+    #             'launch',
+    #             'online_async_launch.py'  # Adjust this path if necessary
+    #         )
+    #     ]),
+    #     launch_arguments={'use_sim_time': 'true', 
+    #                       'slam_params_file': './src/my_bot/config/mapper_params_online_async.yaml'
+    #                       }.items()
+    # )
+
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'worlds',
@@ -69,10 +82,19 @@ def generate_launch_description():
         arguments=['--ros-args', '-p', f'config_file:={bridge_params}']
     )
 
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+    )
+
     return LaunchDescription([
         rsp,
         world_arg,
         gazebo,
         spawn_entity,
-        ros_gz_bridge
+        ros_gz_bridge,
+        rviz
+        # slam
     ])
