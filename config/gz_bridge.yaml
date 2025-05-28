@@ -21,3 +21,16 @@
   gz_type_name: "gz.msgs.Model"
   ros_type_name: "sensor_msgs/msg/JointState"
   direction: BIDIRECTIONAL
+
+- ros_topic_name: "/imu"
+  gz_topic_name: "/imu"
+  gz_type_name: "gz.msgs.IMU"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/scan"
+  gz_topic_name: "/scan"
+  gz_type_name: "gz.msgs.LaserScan"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  direction: BIDIRECTIONAL
+

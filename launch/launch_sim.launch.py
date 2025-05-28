@@ -18,7 +18,7 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory(package_name),
                 'launch',
-                'rsp.launch.py'
+                'rsp.launch.py' 
             )
         ]),
         launch_arguments={'use_sim_time': 'true'}.items() 
@@ -52,13 +52,13 @@ def generate_launch_description():
                 'gz_sim.launch.py'
             )
         ]),
-        launch_arguments={'gz_args': ['--render-engine ', 'ogre ', '-r ', world]}.items()
+        launch_arguments={'gz_args': ['--render-engine ', 'ogre2 ', '-r ', world]}.items()
     )
 
     spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
-        arguments=['-world', 'default', '-topic', '/robot_description', '-name', 'my_bot', '-z', '0.1'],
+        arguments=['-world', 'empty_world', '-topic', '/robot_description', '-name', 'my_bot', '-z', '0.1'],
         output='screen'
     )
 
