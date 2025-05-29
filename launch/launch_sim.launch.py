@@ -3,11 +3,13 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction, Shutdown, RegisterEventHandler
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.event_handlers import OnProcessExit
 
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -23,19 +25,6 @@ def generate_launch_description():
         ]),
         launch_arguments={'use_sim_time': 'true'}.items() 
     )
-
-    # slam = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([
-    #         os.path.join(
-    #             get_package_share_directory("slam_toolbox"),
-    #             'launch',
-    #             'online_async_launch.py'  # Adjust this path if necessary
-    #         )
-    #     ]),
-    #     launch_arguments={'use_sim_time': 'true', 
-    #                       'slam_params_file': './src/my_bot/config/mapper_params_online_async.yaml'
-    #                       }.items()
-    # )
 
     default_world = os.path.join(
         get_package_share_directory(package_name),
@@ -86,7 +75,60 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output='screen',
+        output='screen'
+    )
+
+    slam_launch = TimerAction(
+        period=3.0,  # Wait for 3 seconds before starting SLAM
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    PathJoinSubstitution([
+                        FindPackageShare('slam_toolbox'),
+                        'launch',
+                        'online_async_launch.py'
+                    ])
+                ]),
+                launch_arguments={
+                    'slam_params_file': PathJoinSubstitution([
+                        FindPackageShare('my_bot'),
+                        'config',
+                        'mapper_params_online_async.yaml'
+                    ]),
+                    'use_sim_time': 'true'
+                }.items()
+            )   
+        ]
+    )
+
+    nav2_launch = TimerAction(
+        period=6.0,  # Wait for 6 seconds before starting Navigation2
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    PathJoinSubstitution([
+                        FindPackageShare('nav2_bringup'),
+                        'launch',
+                        'navigation_launch.py'
+                    ])
+                ]),
+                launch_arguments={
+                    'use_sim_time': 'true'
+                }.items()
+            )
+        ]
+    )
+
+    twist_mux = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        parameters=[PathJoinSubstitution([
+            FindPackageShare('my_bot'),
+            'config',
+            'twist_mux.yaml'
+        ]), 
+        {'use_sim_time': True}],
+        remappings=[('/cmd_vel_out', '/cmd_vel')]
     )
 
     return LaunchDescription([
@@ -95,6 +137,8 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         ros_gz_bridge,
-        rviz
-        # slam
+        rviz,
+        slam_launch,
+        nav2_launch,
+        twist_mux
     ])

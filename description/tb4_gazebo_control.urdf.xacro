@@ -134,7 +134,7 @@
       <plugin
         filename="gz-sim-sensors-system"
         name="gz::sim::systems::Sensors">
-        <render_engine>ogre</render_engine>
+        <render_engine>ogre2</render_engine>
       </plugin>
   </gazebo>
 
