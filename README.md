@@ -11,7 +11,12 @@ Note that each directory currently has at least one file in it to ensure that gi
 ```
 cd dev_ws
 source install/local_setup.bash
+
 ros2 launch my_bot launch_sim.launch.py # launches turtlebot4, default world, and rviz
+
 ros2 run teleop_twist_keyboard teleop_twist_keyboard # to control turtlebot4
-ros2 launch slam_toolbox online_async_launch.py use_sim_time:=true slam_params_file:=~/dev_ws/src/my_bot/config/mapper_params_online_async.yaml # to launch slam, run in dev_ws
+
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=true slam_params_file:=/home/bmanara/dev_ws/src/my_bot/config/mapper_params_online_async.yaml # launch slam
+
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true # launch nav2
 ```
