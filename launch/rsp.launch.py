@@ -17,8 +17,8 @@ def generate_launch_description():
 
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory('my_bot'))
-    # xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro') # for original robot
-    xacro_file = os.path.join(pkg_path, 'description', 'tb4.urdf.xacro') # for TurtleBot4
+    xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro') # for original robot
+    # xacro_file = os.path.join(pkg_path, 'description', 'tb4.urdf.xacro') # for TurtleBot4
     # xacro_file = os.path.join(pkg_path, 'description', 'ur10.urdf.xacro') # for UR10 robot
     robot_description_config = xacro.process_file(xacro_file)
 
