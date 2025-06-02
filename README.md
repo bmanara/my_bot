@@ -8,6 +8,11 @@ Note that each directory currently has at least one file in it to ensure that gi
 
 
 ### On main branch
+With new launch file, just run:
+```
+ros2 launch my_bot launch_sim.launch.py # launches all applications required for SLAM and Localization
+```
+Outdated:
 ```
 cd dev_ws
 source install/local_setup.bash
