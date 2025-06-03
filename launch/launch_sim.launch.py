@@ -78,6 +78,28 @@ def generate_launch_description():
         output='screen'
     )
 
+    diff_drive_spawner = TimerAction(
+        period=2.0, # Wait for 2 seconds before spawning the robot
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["diff_cont"]
+            )
+        ]
+    )
+
+    joint_broad_spawner = TimerAction(
+        period=2.0, # Wait for 2 seconds before spawning the joint state broadcaster
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["joint_broad"]
+            )
+        ]
+    )
+
     slam_launch = TimerAction(
         period=3.0,  # Wait for 3 seconds before starting SLAM
         actions=[
@@ -138,6 +160,8 @@ def generate_launch_description():
         spawn_entity,
         ros_gz_bridge,
         rviz,
+        diff_drive_spawner,
+        joint_broad_spawner,
         slam_launch,
         nav2_launch,
         twist_mux
