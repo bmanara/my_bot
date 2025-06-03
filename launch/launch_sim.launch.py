@@ -152,7 +152,7 @@ def generate_launch_description():
             'twist_mux.yaml'
         ]), 
         {'use_sim_time': True}],
-        remappings=[('/cmd_vel_out', '/cmd_vel')]
+        remappings=[('/cmd_vel_out', '/diff_cont/cmd_vel_unstamped')]
     )
 
     return LaunchDescription([
