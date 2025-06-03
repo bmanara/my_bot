@@ -46,6 +46,7 @@ def generate_launch_description():
         description='World to load in Gazebo'
     )
 
+    gazebo_params_path = os.path.join(get_package_share_directory(package_name), 'config', 'gazebo_params.yaml')
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(
@@ -54,7 +55,8 @@ def generate_launch_description():
                 'gz_sim.launch.py'
             )
         ]),
-        launch_arguments={'gz_args': ['--render-engine ', 'ogre2 ', '-r ', world]}.items()
+        launch_arguments={'gz_args': ['--render-engine ', 'ogre2 ', '-r ', world], 
+                          'extra_gazebo_args': ' --ros-args --params-file ' + gazebo_params_path}.items()
     )
 
     spawn_entity = Node(
