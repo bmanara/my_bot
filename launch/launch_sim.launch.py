@@ -79,7 +79,7 @@ def generate_launch_description():
     )
 
     slam_launch = TimerAction(
-        period=1.0,  # Wait for 1 seconds before starting SLAM
+        period=3.0,  # Wait for 3 seconds before starting SLAM
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([
